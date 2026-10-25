@@ -100,7 +100,8 @@ py peer_client.py lookup D3 127.0.0.1:9301
 
 ## 5. How to Reproduce Test Cases (Execute After Section 4)
 
-> **Execution Order Warning:** Run these test cases **strictly in order (Test Case 1 -> 2 -> 3)** after completing the baseline demo above. Test Cases 1 and 2 intentionally shut down nodes to verify system recovery.
+> **Execution Order Warning:** Run these test cases **strictly in order (Test Case 1 -> 2 -> 3)** after completing the baseline demo above. Test Cases 1 and 2 intentionally shut down nodes to verify system recovery.  
+> **Test Cases 4 and 5 are standalone regression checks.** They can be run at **any time** after the baseline demo, either before Test Case 1 (when all 4 drivers are online to receive broadcasts) or after Test Case 3.
 
 ---
 
