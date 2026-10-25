@@ -30,8 +30,8 @@ Open separate VS Code terminal tabs inside the project folder (`Milestone-3-Dist
 | **4** | Monitor Subscriber | `py subscriber.py monitor` | Pub-Sub listener on `ride.assigned` | 
 | **5** | Driver D1 (Peer Seed) | `py driver_service.py D1 9101 37.770 -122.410 drivers.local 9301` | Bootstrap node; initializes ring (Peer Port `9301`) | 
 | **6** | Driver D2 (Peer Node) | `py driver_service.py D2 9102 37.790 -122.420 drivers.local 9302 127.0.0.1:9301` | Joins ring via D1 (Peer Port `9302`) | 
-| **7** | Driver D3 (Peer Node) | `py` driver_service.py D3` 9103 37.760 -122.400 drivers.local 9303 127.0.0.1:9301` | Joins ring via D1 (Peer Port `9303`) | 
-| **8** | Driver D4 (Dynamic Join) | *Started during demo step 2* | 4th peer node; proves dynamic join (Peer Port `9304`) | 
+| **7** | Driver D3 (Peer Node) | `py driver_service.py D3 9103 37.760 -122.400 drivers.local 9303 127.0.0.1:9301` | Joins ring via D1 (Peer Port `9303`) | 
+| **8** | Driver D4 (Perr Node) | `py driver_service.py D4 9104 37.780 -122.430 drivers.local 9304 127.0.0.1:9301` | Joins ring via D1 (Peer Port `9304`) | 
 | **9** | Interactive Runner | *Terminal for running client inspection queries* | Inspection CLI & Test Runner | 
 
 *Note: Clean previous logs before launching by running `py clean_logs.py` in Terminal 9.*
