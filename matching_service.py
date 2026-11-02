@@ -44,105 +44,451 @@ HTML_PAGE = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ride-Matching Architecture Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #0b111e; color: #e2e8f0; padding: 24px; }
-    header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 16px; margin-bottom: 24px; }
-    h1 { font-size: 1.5rem; font-weight: 700; color: #f8fafc; }
-    .badge-hub { background: #064e3b; color: #34d399; padding: 6px 12px; border-radius: 9999px; font-size: 0.8rem; font-weight: 600; }
-    .grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; }
-    .card { background: #131d31; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; }
-    .card-header { display: flex; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
-    .card-header h2 { font-size: 1.1rem; color: #94a3b8; }
-    .pattern-tag { font-size: 0.75rem; color: #38bdf8; font-weight: 600; }
-    .field { margin-bottom: 14px; }
-    label { display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; }
-    input { width: 100%; background: #0b111e; border: 1px solid #334155; border-radius: 6px; padding: 10px; color: #f8fafc; font-size: 0.9rem; }
-    .row { display: flex; gap: 12px; }
-    .btn-row { display: flex; gap: 12px; margin-top: 18px; }
-    button { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.85rem; }
-    .btn-primary { background: #2563eb; color: #fff; }
-    .btn-primary:hover { background: #1d4ed8; }
-    .btn-retry { background: #d97706; color: #fff; }
-    .btn-retry:hover { background: #b45309; }
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.85rem; }
-    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #1e293b; }
-    th { color: #64748b; font-weight: 600; }
-    .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
-    .avail { background: #064e3b; color: #34d399; }
-    .busy { background: #7f1d1d; color: #f87171; }
-    pre { background: #000; border: 1px solid #1e293b; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: #38bdf8; overflow-x: auto; max-height: 180px; }
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(16, 24, 40, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --surface-hover: rgba(255, 255, 255, 0.04);
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.25);
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.2);
+      --rose: #f43f5e;
+      --amber: #f59e0b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 32px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .title-group h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .title-group p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .badge-hub {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 20px var(--emerald-glow);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--emerald);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1.35fr;
+      gap: 28px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .card-header h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+
+    .pattern-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #7dd3fc;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .field { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      background: rgba(9, 13, 22, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: rgba(9, 13, 22, 0.95);
+    }
+
+    .row { display: flex; gap: 14px; }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    button {
+      flex: 1;
+      padding: 13px 18px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-retry {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+    }
+
+    .btn-retry:hover {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: rgba(245, 158, 11, 0.5);
+      transform: translateY(-1px);
+    }
+
+    button:active { transform: translateY(0); }
+
+    .table-container {
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+      background: rgba(9, 13, 22, 0.4);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-dim);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    tbody tr {
+      transition: background 0.15s ease;
+    }
+
+    tbody tr:hover {
+      background: var(--surface-hover);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .port-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3px 7px;
+      border-radius: 5px;
+    }
+
+    .coord-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .avail {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+    }
+
+    .busy {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      color: #fb7185;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .avail .badge-dot { background: #34d399; }
+    .busy .badge-dot { background: #fb7185; }
+
+    .terminal-window {
+      background: #050811;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 18px;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .term-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: #38bdf8;
+      padding: 14px;
+      overflow-x: auto;
+      max-height: 200px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    @media (max-width: 1024px) {
+      .grid { grid-template-columns: 1fr; }
+      body { padding: 18px; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>Ride-Matching Architecture Console</h1>
-      <p style="color:#64748b; font-size:0.85rem;">Distributed Systems Milestone 3 — Peer Driver Discovery</p>
-    </div>
-    <span class="badge-hub">SYSTEM ONLINE: PORT 9000</span>
-  </header>
+  <div class="container">
+    <header>
+      <div class="title-group">
+        <h1>Ride-Matching Architecture Console</h1>
+        <p>Distributed Systems Milestone 3 &mdash; Peer-to-Peer Driver Discovery Overlay</p>
+      </div>
+      <div class="badge-hub">
+        <span class="pulse-dot"></span>
+        SYSTEM ONLINE &bull; PORT 9000
+      </div>
+    </header>
 
-  <div class="grid">
-    <!-- Rider Request-Reply Client -->
-    <div class="card">
-      <div class="card-header">
-        <h2>Rider Client</h2>
-        <span class="pattern-tag">Pattern: Request-Reply (HTTP / TCP)</span>
-      </div>
-      <div class="field">
-        <label>Rider ID</label>
-        <input type="text" id="rider_id" value="rider_son">
-      </div>
-      <div class="field">
-        <label>Request ID (Idempotency Key)</label>
-        <input type="text" id="request_id" value="">
-      </div>
-      <div class="row">
-        <div class="field" style="flex:1">
-          <label>Pickup Latitude</label>
-          <input type="text" id="lat" value="37.7749">
+    <div class="grid">
+      <!-- Rider Request-Reply Client -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Rider Client</h2>
+          <span class="pattern-tag">HTTP / TCP Request-Reply</span>
         </div>
-        <div class="field" style="flex:1">
-          <label>Pickup Longitude</label>
-          <input type="text" id="lon" value="-122.4194">
+        <div class="field">
+          <label>Rider ID</label>
+          <input type="text" id="rider_id" value="rider_son">
+        </div>
+        <div class="field">
+          <label>Request ID (Idempotency Key)</label>
+          <input type="text" id="request_id" value="">
+        </div>
+        <div class="row">
+          <div class="field" style="flex:1">
+            <label>Pickup Latitude</label>
+            <input type="text" id="lat" value="37.7749">
+          </div>
+          <div class="field" style="flex:1">
+            <label>Pickup Longitude</label>
+            <input type="text" id="lon" value="-122.4194">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="sendRequest(false)">
+            <span>&rarr;</span> 1. Send New Request
+          </button>
+          <button class="btn-retry" onclick="sendRequest(true)">
+            <span>&#8635;</span> 2. Retry Same (Duplicate)
+          </button>
+        </div>
+
+        <div style="margin-top: 24px;">
+          <label>Synchronous Server Reply (Unmarshalled)</label>
+          <div class="terminal-window">
+            <div class="terminal-bar">
+              <span class="term-dot" style="background:#ff5f56;"></span>
+              <span class="term-dot" style="background:#ffbd2e;"></span>
+              <span class="term-dot" style="background:#27c93f;"></span>
+            </div>
+            <pre id="reply_box">Waiting for user action...</pre>
+          </div>
         </div>
       </div>
-      <div class="btn-row">
-        <button class="btn-primary" onclick="sendRequest(false)">1. Send New Request</button>
-        <button class="btn-retry" onclick="sendRequest(true)">2. Retry Same (Duplicate)</button>
-      </div>
 
-      <div style="margin-top: 20px;">
-        <label>Synchronous Server Reply (Unmarshalled)</label>
-        <pre id="reply_box">Waiting for user action...</pre>
-      </div>
-    </div>
+      <!-- Active Driver Pool and Storage -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Peer-Discovered Driver Pool</h2>
+          <span class="pattern-tag">Peer Overlay Discovery</span>
+        </div>
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Driver</th>
+                <th>Port</th>
+                <th>Coordinates</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="driver_table">
+              <tr><td colspan="4" style="text-align:center; color:#64748b; padding:24px;">Scanning overlay for live peers...</td></tr>
+            </tbody>
+          </table>
+        </div>
 
-    <!-- Active Driver Pool and Storage -->
-    <div class="card">
-      <div class="card-header">
-        <h2>Peer-Discovered Driver Pool</h2>
-        <span class="pattern-tag">Pattern: Peer Lookup + Assignments</span>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Driver</th>
-            <th>Port</th>
-            <th>Coordinates</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="driver_table">
-          <tr><td colspan="4" style="text-align:center; color:#64748b;">No live peers discovered yet.</td></tr>
-        </tbody>
-      </table>
-
-      <div style="margin-top: 20px;">
-        <label>Live Peer Discovery Snapshot</label>
-        <pre id="storage_box">{}</pre>
+        <div style="margin-top: 24px;">
+          <label>Live Peer Discovery Snapshot</label>
+          <div class="terminal-window">
+            <div class="terminal-bar">
+              <span class="term-dot" style="background:#ff5f56;"></span>
+              <span class="term-dot" style="background:#ffbd2e;"></span>
+              <span class="term-dot" style="background:#27c93f;"></span>
+            </div>
+            <pre id="storage_box">{}</pre>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -191,19 +537,19 @@ HTML_PAGE = """<!DOCTYPE html>
         const tbody = document.getElementById("driver_table");
         const keys = Object.keys(list);
         if (keys.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">No live peers discovered yet.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b; padding:24px;">No live peers discovered yet.</td></tr>';
           return;
         }
 
         tbody.innerHTML = keys.map(did => {
           const d = list[did];
           const badge = d.available 
-            ? '<span class="status-badge avail">AVAILABLE</span>' 
-            : '<span class="status-badge busy">MATCHED / BUSY</span>';
+            ? '<span class="status-badge avail"><span class="badge-dot"></span>AVAILABLE</span>' 
+            : '<span class="status-badge busy"><span class="badge-dot"></span>MATCHED / BUSY</span>';
           return `<tr>
-            <td style="font-weight:600;">${did}</td>
-            <td>${d.port}</td>
-            <td>(${Number(d.lat).toFixed(4)}, ${Number(d.lon).toFixed(4)})</td>
+            <td style="font-weight:700; color:#fff;">${did}</td>
+            <td><span class="port-tag">:${d.port}</span></td>
+            <td><span class="coord-tag">(${Number(d.lat).toFixed(4)}, ${Number(d.lon).toFixed(4)})</span></td>
             <td>${badge}</td>
           </tr>`;
         }).join("");
