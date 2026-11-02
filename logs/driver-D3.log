@@ -1,0 +1,4 @@
+[2026-11-02 04:16:36.906] [driver-D3] PID 23172; registering with matching service at localhost:9000
+[2026-11-02 04:16:39.044] [driver-D3] registered, assignment port 9103, peer port 9303
+[2026-11-02 05:06:21.955] [driver-D3] PID 15444; registering with matching service at localhost:9000
+[2026-11-02 05:06:24.090] [driver-D3] registered, assignment port 9103, peer port 9303

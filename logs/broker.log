@@ -1,0 +1,10 @@
+[2026-11-02T12:13:59.216+00:00] [broker] listening on TCP port 9200
+[2026-11-02T12:14:15.303+00:00] [broker] JOIN audit ('topic', 'ride.assigned')
+[2026-11-02T12:14:27.756+00:00] [broker] JOIN monitor ('topic', 'ride.assigned')
+[2026-11-02T12:14:41.770+00:00] [broker] JOIN driver-D1-group ('group', 'drivers.local')
+[2026-11-02T12:16:25.908+00:00] [broker] JOIN driver-D2-group ('group', 'drivers.local')
+[2026-11-02T12:16:36.925+00:00] [broker] JOIN driver-D3-group ('group', 'drivers.local')
+[2026-11-02T12:17:45.825+00:00] [broker] JOIN driver-D4-group ('group', 'drivers.local')
+[2026-11-02T12:48:11.445+00:00] [broker] SEND {'op': 'publish', 'target': 'ride.assigned', 'message_id': '7568f13f-45cc-4eba-92f0-cc2e69234caf', 'timestamp': '2026-11-02T12:48:11.419622+00:00', 'payload': {'status': 'matched', 'ride_id': 'ride-rider_son-D1', 'driver_id': 'D1', 'request_id': 'req_1793623691280', 'lookup_path': ['D1', 'D2', 'D3', 'D4']}} recipients=2
+[2026-11-02T13:06:21.978+00:00] [broker] JOIN driver-D3-group ('group', 'drivers.local')
+[2026-11-02T13:23:19.565+00:00] [broker] SEND {'op': 'publish', 'target': 'ride.assigned', 'message_id': '3979542a-5121-48c4-9cae-4c3e6b146ae3', 'timestamp': '2026-11-02T13:23:19.546326+00:00', 'payload': {'status': 'matched', 'ride_id': 'ride-Emma-D2', 'driver_id': 'D2', 'request_id': 'req-emma', 'lookup_path': ['D1', 'D2']}} recipients=2

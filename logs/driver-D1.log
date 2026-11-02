@@ -1,0 +1,3 @@
+[2026-11-02 04:14:41.709] [driver-D1] PID 34672; registering with matching service at localhost:9000
+[2026-11-02 04:14:43.815] [driver-D1] registered, assignment port 9101, peer port 9301
+[2026-11-02 04:48:11.417] [driver-D1] ASSIGNED ride ride-rider_son-D1 for rider rider_son

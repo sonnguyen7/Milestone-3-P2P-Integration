@@ -1,0 +1,17 @@
+[2026-11-02 04:14:07.376] [matching-service] Starting Matching Service on port 9000...
+[2026-11-02 04:14:07.376] [matching-service] Web UI available at: http://localhost:9000/
+[2026-11-02 04:14:43.812] [matching-service] driver registered: D1 at (37.77, -122.41)
+[2026-11-02 04:16:28.019] [matching-service] driver registered: D2 at (37.79, -122.42)
+[2026-11-02 04:16:39.042] [matching-service] driver registered: D3 at (37.76, -122.4)
+[2026-11-02 04:17:47.973] [matching-service] driver registered: D4 at (37.78, -122.43)
+[2026-11-02 04:48:11.284] [matching-service] ride request from rider_son at (37.7749, -122.4194) [req_id=req_1793623691280]
+[2026-11-02 04:48:11.338] [matching-service] PEER LOOKUP path=D1->D2->D3->D4 resources=['D1', 'D2', 'D3', 'D4']
+[2026-11-02 04:48:11.339] [matching-service] matched rider_son -> D1 (ride_id=ride-rider_son-D1); pushing assignment
+[2026-11-02 04:48:11.418] [matching-service] driver D1 acknowledged ride ride-rider_son-D1
+[2026-11-02 04:48:11.449] [matching-service] published ride.assigned event to TCP broker for ride-rider_son-D1
+[2026-11-02 05:06:24.087] [matching-service] driver registered: D3 at (37.76, -122.4)
+[2026-11-02 05:23:19.534] [matching-service] ride request from Emma at (37.76, -122.4) [req_id=req-emma]
+[2026-11-02 05:23:19.540] [matching-service] PEER LOOKUP path=D1->D2 resources=['D1', 'D2']
+[2026-11-02 05:23:19.540] [matching-service] matched Emma -> D2 (ride_id=ride-Emma-D2); pushing assignment
+[2026-11-02 05:23:19.545] [matching-service] driver D2 acknowledged ride ride-Emma-D2
+[2026-11-02 05:23:19.568] [matching-service] published ride.assigned event to TCP broker for ride-Emma-D2

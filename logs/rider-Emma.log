@@ -1,0 +1,2 @@
+[2026-11-02 05:23:17.454] [rider-Emma] requesting ride at (37.76, -122.4)
+[2026-11-02 05:23:19.570] [rider-Emma] response: {'status': 'matched', 'ride_id': 'ride-Emma-D2', 'driver_id': 'D2', 'request_id': 'req-emma', 'lookup_path': ['D1', 'D2']}

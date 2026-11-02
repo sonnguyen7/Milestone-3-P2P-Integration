@@ -1,0 +1,5 @@
+[2026-11-02 04:17:45.807] [driver-D4-peer] START D4 peer=127.0.0.1:9304
+[2026-11-02 04:17:45.868] [driver-D4-peer] JOIN membership=['D1', 'D2', 'D3', 'D4'] neighbors=['D3', 'D1']
+[2026-11-02 04:44:08.704] [driver-D4-peer] LOOKUP 8c33a0e3c9d640b59f9319d239c6d886 kind=scan target=None path=D1->D2->D3->D4
+[2026-11-02 04:48:11.336] [driver-D4-peer] LOOKUP ce7d8fdff68c41bb8029a8ac0ae7b568 kind=scan target=None path=D1->D2->D3->D4
+[2026-11-02 04:50:04.313] [driver-D4-peer] LEAVE D4
