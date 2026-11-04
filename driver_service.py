@@ -77,7 +77,8 @@ if __name__ == "__main__":
                                   "port": my_port, "lat": lat, "lon": lon,
                                   "peer_host": "127.0.0.1", "peer_port": peer_port})
         log(service_name, f"registered, assignment port {my_port}, peer port {peer_port}")
-        threading.Event().wait()
+        while True:
+            threading.Event().wait()
     except KeyboardInterrupt:
         pass
     finally:
